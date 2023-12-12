@@ -6,6 +6,7 @@ import hashlib
 hash_type = ""
 crack_method = ""
 dictionary_file = ""
+typeList = ["md5", "plaintext", "bcrypt", "sha-256"]
 
 
 # Function to set the hash type
