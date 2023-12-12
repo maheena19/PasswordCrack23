@@ -1,6 +1,6 @@
 import sys
 import hashlib
-#import bcrypt
+import bcrypt
 
 # Global variables to store hash type, crack method, and dictionary file
 hash_type = ""
