@@ -20,7 +20,7 @@ Hash types:
 
 Methods:
 
--B : Brute Force Only works with PlainText
+-B : Brute Force 
 
 -D : Dictionary
 
