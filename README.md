@@ -1,6 +1,6 @@
 # PasswordProject 
 2nd 9Weeks Major Project: Cybersecurity
-Maheen Ali 
+  Maheen Ali 
 
 # Dependencies 
 You need to upload top 10k passwords because the dictionary method depends on it to work
