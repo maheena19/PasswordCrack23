@@ -13,8 +13,8 @@ def set_hash_type(ht):
     global hash_type
     hash_type = ht
 
-def set_cracking_method(cm):
-    global cracking_method, dictionary_file
+def set_crack_method(cm):
+    global crack_method, dictionary_file
     cracking_method = cm
     if cm == "Dictionary":
         dictionary_file = ""
@@ -42,23 +42,23 @@ for arg in given_arguments:
     elif arg == "-s":
         set_hash_type("SHA-256")
     elif arg == "-D":
-        set_cracking_method("Dictionary")
+        set_crack_method("Dictionary")
     elif arg == "-B":
-        set_cracking_method("Brute Force")
+        set_crack_method("Brute Force")
 
 # Assign defaults if not given
 if len(hash_type) == 0:
     print("Hash type is not given so defaulting to PlainText")
     set_hash_type("PlainText")
-if len(cracking_method) == 0:
+if len(crack_method) == 0:
     print("A cracking method is not selected so it will be defaulting to Dictionary.")
-    set_cracking_method("Dictionary")
-if cracking_method == "Brute Force" and not (hash_type == "PlainText"):
-    print("This is an invalid combination becuase Brute Force is only compatible with PlainText")
+    set_crack_method("Dictionary")
+if crack_method == "Brute Force" and not (hash_type == "PlainText"):
+    print("This is an invalid combination because Brute Force is only compatible with PlainText")
     quit()
 
 # Search the dictionary for the password based on the hash type
-if cracking_method == "Dictionary":
+if crack_method == "Dictionary":
     dictionary = open("Top10kPasswords.txt")
     print("Searching the Dictionary...")
     for line in dictionary:
@@ -85,7 +85,7 @@ if cracking_method == "Dictionary":
     quit()
 
 # Brute force a PlainText password with characters [a-z], [A-Z], and [0-9]
-if cracking_method == "Brute Force":
+if crack_method == "Brute Force":
     print("Brute Forcing...")
     temp_pass = ""
     pass_without_whitespace = given_password.rstrip()
