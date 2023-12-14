@@ -2,93 +2,102 @@ import sys
 import hashlib
 import bcrypt
 
+# Type is the kind of hash and method is either Brute Force or Dictionary
+# Dictionary_file is for the dictionary.
 # Global variables to store hash type, crack method, and dictionary file
 hash_type = ""
-crack_method = ""
+method = ""
 dictionary_file = ""
 typeList = ["md5", "plaintext", "bcrypt", "sha-256"]
 
 # Function to set the hash type
-def set_hash_type(ht):
-    global hash_type
-    hash_type = ht
 
-def set_crack_method(cm):
-    global crack_method, dictionary_file
-    cracking_method = cm
-    if cm == "Dictionary":
+def check_hash_type(c):
+    if c == hash_type:
+        return True
+    return False
+
+def set_hash_type(t):
+    global hash_type
+    hash_type = t
+
+def set_method(m):
+    global method, dictionary_file
+    method = m
+    if m == "Dictionary":
         dictionary_file = ""
 
-def is_hash_type(ht_check):
-    return ht_check == hash_type
 
-# Check if a password was given. If not, exit the program.
-# Options are -p Plain text, -m MD5, -b BCrypt, -s SHA256, -D Dictionary, -B Brute force
-given_password = sys.argv[1]
-if given_password in ['-p', '-m', '-b', '-s', '-D', '-B']:
-    print("Password isn't given to crack.**")
+# if password is not given it will set to a default 
+# options are -pt Plain text, -md5 MD5, -bC BCrypt, -s256 SHA256, -D Dictionary, -B Brute force
+password = sys.argv[1]
+if password in ['-p', '-m', '-b', '-s', '-D', '-B']:
+    print("Password is not given to crack.")
     quit()
 
-# Process arguments after the password and set hash type and cracking method
+# Runs through arguments after password and sets a type and method
 given_arguments = sys.argv[2:]
 
 for arg in given_arguments:
-    if arg == "-p":
+    if arg == "-pt":
         set_hash_type("PlainText")
-    elif arg == "-m":
+    elif arg == "-md5":
         set_hash_type("MD5")
-    elif arg == "-b":
+    elif arg == "-bc":
         set_hash_type("BCrypt")
-    elif arg == "-s":
+    elif arg == "-s256":
         set_hash_type("SHA-256")
     elif arg == "-D":
-        set_crack_method("Dictionary")
+        set_method("Dictionary")
     elif arg == "-B":
-        set_crack_method("Brute Force")
+        set_method("Brute Force")
 
-# Assign defaults if not given
+# Assigns type and method if not given. Because Brute Force only works with PlainText
+# in this program, checks to see if the user has inputted anything else with Brute Force.
 if len(hash_type) == 0:
-    print("Hash type is not given so defaulting to PlainText")
+    print("You need to enter a type given if not given it will default to PlainText")
     set_hash_type("PlainText")
-if len(crack_method) == 0:
-    print("A cracking method is not selected so it will be defaulting to Dictionary.")
-    set_crack_method("Dictionary")
-if crack_method == "Brute Force" and not (hash_type == "PlainText"):
-    print("This is an invalid combination because Brute Force is only compatible with PlainText")
+if len(method) == 0:
+    print("No method selected is selected so it will default to Dictionary.")
+    set_method("Dictionary")
+if method == "Brute Force" and not (hash_type == "PlainText"):
+    print("This is not a possible combination because brute Force is only compatible with PLainText")
     quit()
 
-# Search the dictionary for the password based on the hash type
-if crack_method == "Dictionary":
-    dictionary = open("Top10kPasswords.txt")
+# Runs through each line in the dictionary (top 10k passwords) and checks the appropriate
+# type of hash. Returns the PlainText  line if found.
+if method == "Dictionary":
+    d = open("Top10kPasswords.txt")
     print("Searching the Dictionary...")
-    for line in dictionary:
+    for line in d:
         temp_line = line.rstrip().encode('utf-8')
-        if is_hash_type("MD5"):
+        if check_hash_type("MD5"):
             hashed_temp_line = hashlib.md5(temp_line)
             check = hashed_temp_line.hexdigest()
-        elif is_hash_type("SHA-256"):
+        elif check_hash_type("SHA-256"):
             hashed_temp_line = hashlib.sha256(temp_line)
             check = hashed_temp_line.hexdigest()
-        elif is_hash_type("PlainText"):
+        elif check_hash_type("PlainText"):
             check = line.rstrip()
-        elif is_hash_type("BCrypt"):
-            temp_hash = given_password.rstrip().encode('utf-8')
+        elif check_hash_type("BCrypt"):
+            temp_hash = password.rstrip().encode('utf-8')
             check = ""
             if bcrypt.checkpw(temp_line, temp_hash):
                 print("Password Found: " + line)
                 quit()
 
-        if check == given_password and not is_hash_type("BCrypt"):
+
+        if check == password and not check_hash_type("BCrypt"):
             print("Password Found: " + line)
             quit()
     print("Password is not found in the dictionary.")
     quit()
 
-# Brute force a PlainText password with characters [a-z], [A-Z], and [0-9]
-if crack_method == "Brute Force":
+# Brute forces a PlainText password with characters [a-z], [A-Z], and [0-9]
+if method == "Brute Force":
     print("Brute Forcing...")
     temp_pass = ""
-    pass_without_whitespace = given_password.rstrip()
+    pass_without_whitespace = password.rstrip()
     possible_values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
     for x in pass_without_whitespace:
         for val in possible_values:
@@ -97,13 +106,5 @@ if crack_method == "Brute Force":
                 if temp_pass == pass_without_whitespace:
                     print("Password Found: " + temp_pass)
                     quit()
-    print("Cannot find find Password")
+    print("Unable to Find Password")
     quit()
-
-# Function to set the crack method
-def set_crack_method(cm):
-    global crack_method, dictionary_file
-    crack_method = cm
-    if cm == "Dictionary":
-        dictionary_file = ""
-
