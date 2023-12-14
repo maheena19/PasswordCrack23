@@ -30,6 +30,6 @@ Methods:
 - python3 pwcrack.py '$2y$10$i2Rbs2hRTCf46BwgfD9vg.NZY9JHCDAYhmi6yPKyv4LiG9HzxlPVm' -D -bc
 - python3 pwcrack.py maheen -pt -D   
 - python3 pwcrack.py 12345678
-
+- python3 pwcrack.py 'a9c43be948c5cabd56ef2bacffb77cdaa5eec49dd5eb0cc4129cf3eda5f0e74c' -s256 -D
 
 
