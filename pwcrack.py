@@ -8,7 +8,6 @@ crack_method = ""
 dictionary_file = ""
 typeList = ["md5", "plaintext", "bcrypt", "sha-256"]
 
-
 # Function to set the hash type
 def set_hash_type(ht):
     global hash_type
@@ -27,7 +26,7 @@ def is_hash_type(ht_check):
 # Options are -p Plain text, -m MD5, -b BCrypt, -s SHA256, -D Dictionary, -B Brute force
 given_password = sys.argv[1]
 if given_password in ['-p', '-m', '-b', '-s', '-D', '-B']:
-    print("**No password given to crack.**")
+    print("Password isn't given to crack.**")
     quit()
 
 # Process arguments after the password and set hash type and cracking method
@@ -49,13 +48,13 @@ for arg in given_arguments:
 
 # Assign defaults if not given
 if len(hash_type) == 0:
-    print("**No hash type given. Defaulting to PlainText**")
+    print("Hash type is not given so defaulting to PlainText")
     set_hash_type("PlainText")
 if len(cracking_method) == 0:
-    print("**No cracking method selected. Defaulting to Dictionary.**")
+    print("A cracking method is not selected so it will be defaulting to Dictionary.")
     set_cracking_method("Dictionary")
 if cracking_method == "Brute Force" and not (hash_type == "PlainText"):
-    print("**Invalid combination. Brute Force is only compatible with PlainText**")
+    print("This is an invalid combination becuase Brute Force is only compatible with PlainText")
     quit()
 
 # Search the dictionary for the password based on the hash type
@@ -82,7 +81,7 @@ if cracking_method == "Dictionary":
         if check == given_password and not is_hash_type("BCrypt"):
             print("Password Found: " + line)
             quit()
-    print("Password not found in dictionary.")
+    print("Password is not found in the dictionary.")
     quit()
 
 # Brute force a PlainText password with characters [a-z], [A-Z], and [0-9]
@@ -98,7 +97,7 @@ if cracking_method == "Brute Force":
                 if temp_pass == pass_without_whitespace:
                     print("Password Found: " + temp_pass)
                     quit()
-    print("Unable to Find Password")
+    print("Cannot find find Password")
     quit()
 
 # Function to set the crack method
