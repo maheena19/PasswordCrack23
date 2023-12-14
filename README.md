@@ -3,8 +3,8 @@
   Maheen Ali 
 
 # Dependencies 
-You need to upload top 10k passwords because the dictionary method depends on it to work
-You need to add apostrophes next too Bcrypt Hash or the method to work 
+- You need to upload top 10k passwords because the dictionary method depends on it to work
+- You need to add apostrophes next too Bcrypt Hash or the method to work 
 
 # Command Line Arguments 
 
