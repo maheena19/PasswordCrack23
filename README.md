@@ -25,6 +25,7 @@ Methods:
 -D : Dictionary
 
 # Formatting 
+- python3 pwcrack.py '$2y$10$i2Rbs2hRTCf46BwgfD9vg.NZY9JHCDAYhmi6yPKyv4LiG9HzxlPVm' -bc -B 
 - python3 pwcrack.py qwerty -pt -B
 - python3 pwcrack.py 5d41402abc4b2a76b9719d911017c592 -md5 -D
 - python3 pwcrack.py '$2y$10$i2Rbs2hRTCf46BwgfD9vg.NZY9JHCDAYhmi6yPKyv4LiG9HzxlPVm' -D -bc
